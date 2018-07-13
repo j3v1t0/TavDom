@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="sys.model.DetalleFactura" table="facturacion.detallefactura">
+        <id column="codDetalle" name="codDetalle" type="int">
+            <generator class="increment"/>
+        </id>
+        <property name="codFactura"/>
+        <property name="codProducto"/>
+        <property name="codBarra"/>
+        <property name="cantidad"/>
+        <property name="precioVenta"/>
+        <property name="total"/>
+    </class>
+</hibernate-mapping>
