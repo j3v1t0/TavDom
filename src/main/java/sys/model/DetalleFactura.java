@@ -19,13 +19,13 @@ public class DetalleFactura {
     private String codBarra;
     private String nombreProducto;
     private Integer cantidad;
-    private Double precioVenta;
-    private Double total;
+    private BigDecimal precioVenta;
+    private BigDecimal total;
 
     public DetalleFactura() {
     }
 
-    public DetalleFactura(Integer codFactura, Integer codProducto, String codBarra, String nombreProducto, Integer cantidad, Double precioVenta, Double total) {
+    public DetalleFactura(Integer codFactura, Integer codProducto, String codBarra, String nombreProducto, Integer cantidad, BigDecimal precioVenta, BigDecimal total) {
         this.codFactura = codFactura;
         this.codProducto = codProducto;
         this.codBarra = codBarra;
@@ -83,21 +83,20 @@ public class DetalleFactura {
         this.cantidad = cantidad;
     }
 
-    public Double getPrecioVenta() {
+    public BigDecimal getPrecioVenta() {
         return precioVenta;
     }
 
-    public void setPrecioVenta(Double precioVenta) {
+    public void setPrecioVenta(BigDecimal precioVenta) {
         this.precioVenta = precioVenta;
     }
 
-    public Double getTotal() {
+    public BigDecimal getTotal() {
         return total;
     }
 
-    public void setTotal(Double total) {
+    public void setTotal(BigDecimal total) {
         this.total = total;
-    }
-    
+    }    
     
 }

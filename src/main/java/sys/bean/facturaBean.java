@@ -146,9 +146,15 @@ public class facturaBean {
             this.producto = pDao.obtenerProductoPorCodBarra(this.productoSeleccionado);
 
             //Aqui agregamos los productos a lista de la tabla producto
-            this.listaDetalleFactura.add(new DetalleFactura(null, this.producto.getCodProducto(), this.producto.getCodBarra(), this.producto.getNombreProducto(), this.cantidadProducto, this.producto.getPrecioVenta(), new Double(0)));
+            this.listaDetalleFactura.add(new DetalleFactura(null, this.producto.getCodProducto(), this.producto.getCodBarra(), 
+                    this.producto.getNombreProducto(), this.cantidadProducto, this.producto.getPrecioVenta(), 
+                    BigDecimal.valueOf(this.cantidadProducto.floatValue()*this.producto.getPrecioVenta().floatValue())));
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Producto agregado"));
+            
+            //llamada al metodo calcular totalFacturaVenta
+            this.totalFacturaVenta();;
+            
             this.cantidadProducto = null;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -167,7 +173,9 @@ public class facturaBean {
             this.producto = pDao.obtenerProductoPorCodBarra(this.codBarra);
 
             if (this.producto != null) {
-                this.listaDetalleFactura.add(new DetalleFactura(null, this.producto.getCodProducto(), this.producto.getCodBarra(), this.producto.getNombreProducto(), 0, this.producto.getPrecioVenta(), new Double(0)));
+                this.listaDetalleFactura.add(new DetalleFactura(null, this.producto.getCodProducto(), this.producto.getCodBarra(), 
+                        this.producto.getNombreProducto(), 0, this.producto.getPrecioVenta(), 
+                        BigDecimal.valueOf(this.cantidadProducto.floatValue()*this.producto.getPrecioVenta().floatValue())));
 
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Producto agregado"));
                 this.codBarra = null;
@@ -187,13 +195,13 @@ public class facturaBean {
 
         try {
             for (DetalleFactura item : listaDetalleFactura) {
-                Double totalVentaPorProducto = item.getPrecioVenta() * item.getCantidad();
-                BigDecimal conversionTotalFactura = BigDecimal.valueOf(totalVentaPorProducto);
+                BigDecimal totalVentaPorProducto = item.getPrecioVenta().multiply(new BigDecimal(item.getCantidad()));
                 item.setTotal(totalVentaPorProducto);
-                totalFacturaVenta = totalFacturaVenta.add(conversionTotalFactura);
+                totalFacturaVenta = totalFacturaVenta.add(totalVentaPorProducto);
             }
             
             this.factura.setTotalVenta(totalFacturaVenta);
+            
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

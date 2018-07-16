@@ -6,7 +6,7 @@
             <generator class="increment"/>
         </id>
         <property name="nombreProducto"/>
-        <property name="precioVenta" type="double"/>
+        <property name="precioVenta"/>
         <property name="stockMinimo" type="int"/>
         <property name="stockActual" type="int"/>
         <property name="codBarra"/>

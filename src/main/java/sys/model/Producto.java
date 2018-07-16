@@ -5,14 +5,17 @@
  */
 package sys.model;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author root
  */
 public class Producto {
+
     private int codProducto;
     private String nombreProducto;
-    private Double precioVenta;
+    private BigDecimal precioVenta;
     private int stockMinimo;
     private int stockActual;
     private String codBarra;
@@ -20,7 +23,7 @@ public class Producto {
     public Producto() {
     }
 
-    public Producto(int codProducto, String nombreProducto, Double precioVenta, int stockMinimo, int stockActual, String codBarra) {
+    public Producto(int codProducto, String nombreProducto, BigDecimal precioVenta, int stockMinimo, int stockActual, String codBarra) {
         this.codProducto = codProducto;
         this.nombreProducto = nombreProducto;
         this.precioVenta = precioVenta;
@@ -45,11 +48,11 @@ public class Producto {
         this.nombreProducto = nombreProducto;
     }
 
-    public Double getPrecioVenta() {
+    public BigDecimal getPrecioVenta() {
         return precioVenta;
     }
 
-    public void setPrecioVenta(Double precioVenta) {
+    public void setPrecioVenta(BigDecimal precioVenta) {
         this.precioVenta = precioVenta;
     }
 
@@ -76,6 +79,5 @@ public class Producto {
     public void setCodBarra(String codBarra) {
         this.codBarra = codBarra;
     }
-    
-    
+
 }
