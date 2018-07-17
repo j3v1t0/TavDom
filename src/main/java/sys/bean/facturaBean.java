@@ -208,6 +208,9 @@ public class facturaBean {
 
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Producto agregado"));
         this.cantidadProducto2 = null;
+        
+        //Llamada al metodo calcular totalFactura
+        this.totalFacturaVenta();
 
     }
 
@@ -216,7 +219,7 @@ public class facturaBean {
         BigDecimal totalFacturaVenta = new BigDecimal(0);
 
         try {
-            for (DetalleFactura item : listaDetalleFactura) {
+            for (DetalleFactura item : this.listaDetalleFactura) {
                 BigDecimal totalVentaPorProducto = item.getPrecioVenta().multiply(new BigDecimal(item.getCantidad()));
                 item.setTotal(totalVentaPorProducto);
                 totalFacturaVenta = totalFacturaVenta.add(totalVentaPorProducto);
