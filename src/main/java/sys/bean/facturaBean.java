@@ -31,10 +31,10 @@ public class facturaBean {
     private Producto producto;
     private String codBarra;
     private List<DetalleFactura> listaDetalleFactura;
-    private Integer cantidadProducto;
+    private String cantidadProducto;
     private String productoSeleccionado;
     private Factura factura;
-    private Integer cantidadProducto2;
+    private String cantidadProducto2;
 
     public facturaBean() {
         this.factura = new Factura();
@@ -77,11 +77,11 @@ public class facturaBean {
         return listaDetalleFactura;
     }
 
-    public Integer getCantidadProducto() {
+    public String getCantidadProducto() {
         return cantidadProducto;
     }
 
-    public void setCantidadProducto(Integer cantidadProducto) {
+    public void setCantidadProducto(String cantidadProducto) {
         this.cantidadProducto = cantidadProducto;
     }
 
@@ -105,11 +105,11 @@ public class facturaBean {
         this.listaDetalleFactura = listaDetalleFactura;
     }
 
-    public Integer getCantidadProducto2() {
+    public String getCantidadProducto2() {
         return cantidadProducto2;
     }
 
-    public void setCantidadProducto2(Integer cantidadProducto2) {
+    public void setCantidadProducto2(String cantidadProducto2) {
         this.cantidadProducto2 = cantidadProducto2;
     }
 
@@ -157,8 +157,8 @@ public class facturaBean {
 
             //Aqui agregamos los productos a lista de la tabla producto
             this.listaDetalleFactura.add(new DetalleFactura(null, this.producto.getCodProducto(), this.producto.getCodBarra(),
-                    this.producto.getNombreProducto(), this.cantidadProducto, this.producto.getPrecioVenta(),
-                    BigDecimal.valueOf(this.cantidadProducto.floatValue() * this.producto.getPrecioVenta().floatValue())));
+                    this.producto.getNombreProducto(), Integer.parseInt(this.cantidadProducto), this.producto.getPrecioVenta(),
+                    BigDecimal.valueOf(Integer.parseInt(this.cantidadProducto) * this.producto.getPrecioVenta().floatValue())));
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Producto agregado"));
 
@@ -203,8 +203,8 @@ public class facturaBean {
     public void agregarDatosProductos2() {
 
         this.listaDetalleFactura.add(new DetalleFactura(null, this.producto.getCodProducto(), this.producto.getCodBarra(),
-                this.producto.getNombreProducto(), this.cantidadProducto2, this.producto.getPrecioVenta(),
-                BigDecimal.valueOf(this.cantidadProducto2.floatValue() * this.producto.getPrecioVenta().floatValue())));
+                this.producto.getNombreProducto(), Integer.parseInt(this.cantidadProducto2), this.producto.getPrecioVenta(),
+                BigDecimal.valueOf(Integer.parseInt(this.cantidadProducto2) * this.producto.getPrecioVenta().floatValue())));
 
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Producto agregado"));
         this.cantidadProducto2 = null;
