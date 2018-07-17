@@ -12,6 +12,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import org.primefaces.context.RequestContext;
 import sys.dao.clienteDao;
 import sys.dao.productoDao;
 import sys.imp.clienteDaoImp;
@@ -33,6 +34,7 @@ public class facturaBean {
     private Integer cantidadProducto;
     private String productoSeleccionado;
     private Factura factura;
+    private Integer cantidadProducto2;
 
     public facturaBean() {
         this.factura = new Factura();
@@ -103,6 +105,14 @@ public class facturaBean {
         this.listaDetalleFactura = listaDetalleFactura;
     }
 
+    public Integer getCantidadProducto2() {
+        return cantidadProducto2;
+    }
+
+    public void setCantidadProducto2(Integer cantidadProducto2) {
+        this.cantidadProducto2 = cantidadProducto2;
+    }
+
     //Metodo para mostrar los datos de los clientes por medio del dialogClientes
     public void agregarDatosCliente(Integer codCliente) throws Exception {
         try {
@@ -146,24 +156,23 @@ public class facturaBean {
             this.producto = pDao.obtenerProductoPorCodBarra(this.productoSeleccionado);
 
             //Aqui agregamos los productos a lista de la tabla producto
-            this.listaDetalleFactura.add(new DetalleFactura(null, this.producto.getCodProducto(), this.producto.getCodBarra(), 
-                    this.producto.getNombreProducto(), this.cantidadProducto, this.producto.getPrecioVenta(), 
-                    BigDecimal.valueOf(this.cantidadProducto.floatValue()*this.producto.getPrecioVenta().floatValue())));
+            this.listaDetalleFactura.add(new DetalleFactura(null, this.producto.getCodProducto(), this.producto.getCodBarra(),
+                    this.producto.getNombreProducto(), this.cantidadProducto, this.producto.getPrecioVenta(),
+                    BigDecimal.valueOf(this.cantidadProducto.floatValue() * this.producto.getPrecioVenta().floatValue())));
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Producto agregado"));
-            
+
             //llamada al metodo calcular totalFacturaVenta
             this.totalFacturaVenta();;
-            
+
             this.cantidadProducto = null;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    //Metodo para mostrar los datos del producto buscado por codBarra
-    public void agregarDatosProductos2() {
-
+    //Metodo para mostrar el dialogCantidadProducto2
+    public void mostrarCantidadProducto2() {
         try {
 
             if (this.codBarra.equals("")) {
@@ -173,11 +182,13 @@ public class facturaBean {
             this.producto = pDao.obtenerProductoPorCodBarra(this.codBarra);
 
             if (this.producto != null) {
-                this.listaDetalleFactura.add(new DetalleFactura(null, this.producto.getCodProducto(), this.producto.getCodBarra(), 
-                        this.producto.getNombreProducto(), 0, this.producto.getPrecioVenta(), 
-                        BigDecimal.valueOf(this.cantidadProducto.floatValue()*this.producto.getPrecioVenta().floatValue())));
 
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Producto agregado"));
+                //Solicitar mostrar el dialog cantidadProducto2
+                RequestContext context = RequestContext.getCurrentInstance();
+                context.execute("PF('dialogCantidadProducto2').show();");
+
+                this.codigoCliente = null;
+
                 this.codBarra = null;
             } else {
                 this.codigoCliente = null;
@@ -186,6 +197,17 @@ public class facturaBean {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    //Metodo para mostrar los datos del producto buscado por codBarra
+    public void agregarDatosProductos2() {
+
+        this.listaDetalleFactura.add(new DetalleFactura(null, this.producto.getCodProducto(), this.producto.getCodBarra(),
+                this.producto.getNombreProducto(), this.cantidadProducto2, this.producto.getPrecioVenta(),
+                BigDecimal.valueOf(this.cantidadProducto2.floatValue() * this.producto.getPrecioVenta().floatValue())));
+
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Producto agregado"));
+        this.cantidadProducto2 = null;
 
     }
 
@@ -199,9 +221,9 @@ public class facturaBean {
                 item.setTotal(totalVentaPorProducto);
                 totalFacturaVenta = totalFacturaVenta.add(totalVentaPorProducto);
             }
-            
+
             this.factura.setTotalVenta(totalFacturaVenta);
-            
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
