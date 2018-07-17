@@ -20,7 +20,7 @@
                             <p:layoutUnit id="datosClientes" position="center" style="padding: 5px; text-aling: justify; font-size: 14px;" size="300">
                                 <h:panelGrid id="gridBuscarDatosClientes" columns="5">
                                     <p:outputLabel value="Codigo Cliente" style="font-weight: bold;"/>
-                                    <p:inputText id="txtBuscarCliente" value="#{facturaBean.codigoCliente}" size="12">
+                                    <p:inputText id="txtBuscarCliente" value="#{facturaBean.codigoCliente}" size="12" converter="#{Integer}" converterMessage="El codigo debe ser numerico.">
                                         <p:ajax event="keyup" listener="#{facturaBean.agregarDatosCliente2()}" update=":formFactura:gridDatosCliente"/>
                                     </p:inputText>
                                     <p:commandButton value="Buscar" oncomplete="PF('dialogClientes').show();" update=":formFactura:dlgClientes"/>
@@ -147,9 +147,14 @@
                     </p:dialog>
 
                     <!--Dialog para pedir la cantidad de producto a vender -->
-                    <p:dialog id="dlgCantidadProducto" widgetVar="dialogCantidadProducto" header="Cantidad" modal="true">
+                    <p:dialog id="dlgCantidadProducto" 
+                              widgetVar="dialogCantidadProducto" 
+                              header="Cantidad" 
+                              modal="true">
                         Cantidad de producto a vender
-                        <p:inputText id="txtCantidadProducto" value="#{facturaBean.cantidadProducto}" style="width: 100px"/> 
+                        <p:inputText id="txtCantidadProducto" 
+                                     value="#{facturaBean.cantidadProducto}" 
+                                     style="width: 100px"/> 
                         <p:commandButton value="Aceptar" 
                                          actionListener="#{facturaBean.agregarDatosProducto()}" 
                                          update=":formFactura:tablaProductosFactura :formFactura:dlgCantidadProducto :formFactura:gridTotalFactura" 
@@ -157,11 +162,16 @@
                     </p:dialog>
 
 
-                    <p:dialog id="dlgCantidadProducto2" widgetVar="dialogCantidadProducto2" header="Cantidad" modal="true">
+                    <p:dialog id="dlgCantidadProducto2" 
+                              widgetVar="dialogCantidadProducto2" 
+                              header="Cantidad" 
+                              modal="true">
                         Cantidad de producto a vender
-                        <p:inputText id="txtCantidadProducto2" value="#{facturaBean.cantidadProducto2}" style="width: 100px"/> 
+                        <p:inputText id="txtCantidadProducto2" 
+                                     value="#{facturaBean.cantidadProducto2}" 
+                                     style="width: 100px"/> 
                         <p:commandButton value="Aceptar" 
-                                         actionListener="#{facturaBean.agregarDatosProducto2()}" 
+                                         actionListener="#{facturaBean.agregarDatosProductos2()}" 
                                          update=":formFactura:tablaProductosFactura :formFactura:dlgCantidadProducto2 :formFactura:gridTotalFactura" 
                                          oncomplete="PF('dialogCantidadProducto2').hide();"/>
                     </p:dialog>
