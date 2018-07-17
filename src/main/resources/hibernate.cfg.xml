@@ -17,5 +17,6 @@
     <mapping resource="sys/Mapeo/Producto.hbm.xml"/>
     <mapping resource="sys/Mapeo/DetalleFactura.hbm.xml"/>
     <mapping resource="sys/Mapeo/Tipo_Negocio.hbm.xml"/>
+    <mapping resource="sys/Mapeo/Detalle_Negocio.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

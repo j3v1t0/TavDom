@@ -9,15 +9,15 @@ package sys.model;
  *
  * @author root
  */
-public class tipo_negocio {
+public class Tipo_Negocio {
     private Integer codTipo_Negocio;
     private String clasificacion;
     private String tipo_negocio;
 
-    public tipo_negocio() {
+    public Tipo_Negocio() {
     }
 
-    public tipo_negocio(Integer codTipo_Negocio, String clasificacion, String tipo_negocio) {
+    public Tipo_Negocio(Integer codTipo_Negocio, String clasificacion, String tipo_negocio) {
         this.codTipo_Negocio = codTipo_Negocio;
         this.clasificacion = clasificacion;
         this.tipo_negocio = tipo_negocio;
