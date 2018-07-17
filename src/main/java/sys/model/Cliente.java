@@ -5,9 +5,12 @@
  */
 package sys.model;
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -15,10 +18,13 @@ import javax.persistence.Id;
  */
 public class Cliente {
 
-    private int codCliente;
+    
+    
+    private int codCliente;    
     private String nombres;
     private String apellidos;
     private String direccion;
+    private Set detalle_negocio = new HashSet(0);
 //    private Set<Factura> facturas = new HashSet<Factura>(0);
 
     public Cliente() {
@@ -61,6 +67,14 @@ public class Cliente {
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
+    }
+
+    public Set getDetalle_negocio() {
+        return detalle_negocio;
+    }
+
+    public void setDetalle_negocio(Set detalle_negocio) {
+        this.detalle_negocio = detalle_negocio;
     }
 
 }
