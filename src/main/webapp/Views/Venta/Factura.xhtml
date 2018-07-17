@@ -74,6 +74,12 @@
                             <p:column headerText="Total">
                                 $ <h:outputText value="#{item.total}"/>
                             </p:column>
+                            <p:column headerText="Editar Cantidad">
+                                <p:commandLink value="#" title="Editar Producto" style="text-decoration: none; color:  #036fab"/>
+                            </p:column>
+                            <p:column headerText="Quitar Producto">
+                                <p:commandLink value="X" title="Quitar Producto" style="text-decoration: none; color: red"/>
+                            </p:column>
                         </p:dataTable>
                         <p:separator/>
                         <h:panelGrid id="gridTotalFactura" columns="2" style="font-size: 24px; margin: 0 auto;">
