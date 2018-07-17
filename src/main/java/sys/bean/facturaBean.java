@@ -152,20 +152,26 @@ public class facturaBean {
     //Metodo para mostrar los datos del producto por medio del dialogProducto
     public void agregarDatosProducto() throws Exception {
         try {
-            productoDao pDao = new productoDaoImp();
-            this.producto = pDao.obtenerProductoPorCodBarra(this.productoSeleccionado);
+            if (!(this.cantidadProducto.matches("[0-9]*")) || this.cantidadProducto.equals("0") || this.cantidadProducto.equals("")) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "La cantidad es incorrecta"));
+                this.cantidadProducto = "";
+            } else {
 
-            //Aqui agregamos los productos a lista de la tabla producto
-            this.listaDetalleFactura.add(new DetalleFactura(null, this.producto.getCodProducto(), this.producto.getCodBarra(),
-                    this.producto.getNombreProducto(), Integer.parseInt(this.cantidadProducto), this.producto.getPrecioVenta(),
-                    BigDecimal.valueOf(Integer.parseInt(this.cantidadProducto) * this.producto.getPrecioVenta().floatValue())));
+                productoDao pDao = new productoDaoImp();
+                this.producto = pDao.obtenerProductoPorCodBarra(this.productoSeleccionado);
 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Producto agregado"));
+                //Aqui agregamos los productos a lista de la tabla producto
+                this.listaDetalleFactura.add(new DetalleFactura(null, this.producto.getCodProducto(), this.producto.getCodBarra(),
+                        this.producto.getNombreProducto(), Integer.parseInt(this.cantidadProducto), this.producto.getPrecioVenta(),
+                        BigDecimal.valueOf(Integer.parseInt(this.cantidadProducto) * this.producto.getPrecioVenta().floatValue())));
 
-            //llamada al metodo calcular totalFacturaVenta
-            this.totalFacturaVenta();;
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Producto agregado"));
 
-            this.cantidadProducto = null;
+                //llamada al metodo calcular totalFacturaVenta
+                this.totalFacturaVenta();;
+
+                this.cantidadProducto = "";
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -201,16 +207,20 @@ public class facturaBean {
 
     //Metodo para mostrar los datos del producto buscado por codBarra
     public void agregarDatosProductos2() {
+        if (!(this.cantidadProducto2.matches("[0-9]*")) || this.cantidadProducto2.equals("0") || this.cantidadProducto2.equals("")) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "La cantidad es incorrecta"));
+            this.cantidadProducto2 = "";
+        } else {
+            this.listaDetalleFactura.add(new DetalleFactura(null, this.producto.getCodProducto(), this.producto.getCodBarra(),
+                    this.producto.getNombreProducto(), Integer.parseInt(this.cantidadProducto2), this.producto.getPrecioVenta(),
+                    BigDecimal.valueOf(Integer.parseInt(this.cantidadProducto2) * this.producto.getPrecioVenta().floatValue())));
 
-        this.listaDetalleFactura.add(new DetalleFactura(null, this.producto.getCodProducto(), this.producto.getCodBarra(),
-                this.producto.getNombreProducto(), Integer.parseInt(this.cantidadProducto2), this.producto.getPrecioVenta(),
-                BigDecimal.valueOf(Integer.parseInt(this.cantidadProducto2) * this.producto.getPrecioVenta().floatValue())));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Producto agregado"));
+            this.cantidadProducto2 = "";
 
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Producto agregado"));
-        this.cantidadProducto2 = null;
-        
-        //Llamada al metodo calcular totalFactura
-        this.totalFacturaVenta();
+            //Llamada al metodo calcular totalFactura
+            this.totalFacturaVenta();
+        }
 
     }
 
