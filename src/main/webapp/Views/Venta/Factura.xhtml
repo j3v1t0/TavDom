@@ -78,7 +78,11 @@
                                 <p:commandLink value="#" title="Editar Producto" style="text-decoration: none; color:  #036fab"/>
                             </p:column>
                             <p:column headerText="Quitar Producto">
-                                <p:commandLink value="X" title="Quitar Producto" style="text-decoration: none; color: red"/>
+                                <p:commandLink value="X" 
+                                               actionListener="#{facturaBean.quitarProductoDetalleFactura(item.codBarra)}"
+                                               title="Quitar Producto" 
+                                               style="text-decoration: none; color: red"
+                                               update="formFactura:tablaProductosFactura :formFactura:gridTotalFactura" />
                             </p:column>
                         </p:dataTable>
                         <p:separator/>

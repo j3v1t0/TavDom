@@ -239,6 +239,26 @@ public class facturaBean {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", e.getMessage()));
+        }
+    }
+    
+    //Metodo para quitar un producto de la factura
+    public void quitarProductoDetalleFactura(String codBarra){
+        try {
+            int i = 0;
+            for (DetalleFactura item : this.listaDetalleFactura){
+                if (item.getCodBarra().equals(codBarra)){
+                    this.listaDetalleFactura.remove(i);
+                    break;
+                }
+                i++;
+            }
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Informacion", "Se retiro el producto de la factura"));
+            //Recalcular el total de la factura, para actualizar el total
+            this.totalFacturaVenta();
+        } catch(Exception e){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", e.getMessage()));
         }
     }
 }
