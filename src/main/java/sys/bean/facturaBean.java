@@ -244,11 +244,11 @@ public class facturaBean {
     }
     
     //Metodo para quitar un producto de la factura
-    public void quitarProductoDetalleFactura(String codBarra){
+    public void quitarProductoDetalleFactura(String codBarra, Integer filaSeleccionada){
         try {
             int i = 0;
             for (DetalleFactura item : this.listaDetalleFactura){
-                if (item.getCodBarra().equals(codBarra)){
+                if (item.getCodBarra().equals(codBarra) && filaSeleccionada.equals(i)){
                     this.listaDetalleFactura.remove(i);
                     break;
                 }
