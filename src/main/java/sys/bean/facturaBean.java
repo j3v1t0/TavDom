@@ -12,15 +12,21 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.RowEditEvent;
 import sys.dao.clienteDao;
+import sys.dao.facturaDao;
 import sys.dao.productoDao;
 import sys.imp.clienteDaoImp;
+import sys.imp.facturaDaoImp;
 import sys.imp.productoDaoImp;
 import sys.model.Cliente;
 import sys.model.DetalleFactura;
 import sys.model.Factura;
 import sys.model.Producto;
+import sys.util.HibernateUtil;
 
 @ManagedBean
 @ViewScoped
@@ -35,6 +41,10 @@ public class facturaBean {
     private String productoSeleccionado;
     private Factura factura;
     private String cantidadProducto2;
+    private Long numeroFactura;
+    
+    private Session session;
+    private Transaction transaction;
 
     public facturaBean() {
         this.factura = new Factura();
@@ -111,6 +121,14 @@ public class facturaBean {
 
     public void setCantidadProducto2(String cantidadProducto2) {
         this.cantidadProducto2 = cantidadProducto2;
+    }
+
+    public Long getNumeroFactura() {
+        return numeroFactura;
+    }
+
+    public void setNumeroFactura(Long numeroFactura) {
+        this.numeroFactura = numeroFactura;
     }
 
     //Metodo para mostrar los datos de los clientes por medio del dialogClientes
@@ -242,13 +260,13 @@ public class facturaBean {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", e.getMessage()));
         }
     }
-    
+
     //Metodo para quitar un producto de la factura
-    public void quitarProductoDetalleFactura(String codBarra, Integer filaSeleccionada){
+    public void quitarProductoDetalleFactura(String codBarra, Integer filaSeleccionada) {
         try {
             int i = 0;
-            for (DetalleFactura item : this.listaDetalleFactura){
-                if (item.getCodBarra().equals(codBarra) && filaSeleccionada.equals(i)){
+            for (DetalleFactura item : this.listaDetalleFactura) {
+                if (item.getCodBarra().equals(codBarra) && filaSeleccionada.equals(i)) {
                     this.listaDetalleFactura.remove(i);
                     break;
                 }
@@ -257,8 +275,52 @@ public class facturaBean {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Informacion", "Se retiro el producto de la factura"));
             //Recalcular el total de la factura, para actualizar el total
             this.totalFacturaVenta();
-        } catch(Exception e){
+        } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", e.getMessage()));
         }
     }
+
+    //Metodos para editar la cantidad del producto en la tabla productosFactura
+    public void onRowEdit(RowEditEvent event) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Información", "Se actualizo la cantidad"));
+        //Recalcular el total de la factura, para actualizar el total
+        this.totalFacturaVenta();
+    }
+
+    public void onRowCancel(RowEditEvent event) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Información", "No se actualizo la cantidad"));
+    }
+
+    //Metodo para generar el numero de factura
+    public void numeracionFactura() {
+
+        this.session = null;
+        this.transaction = null;
+        
+        try {
+            
+            //this.session = HibernateUtil.getSessionFactory().openSession();
+            //this.transaction = this.session.beginTransaction();
+            facturaDao fDao = new facturaDaoImp();
+
+            //verifica si hay registros en la tabla factura de la base de datos
+            this.numeroFactura = fDao.obtenerTotalRegistrosEnFactura();
+            
+            if (this.numeroFactura <=0 || this.numeroFactura==null){
+                this.numeroFactura = Long.valueOf("1");
+            }else {
+                //Recuperamos el ultimo registro que exista en la tabla factura de la base de datos
+                this.factura = fDao.obtenerUltimoRegistro();
+                this.numeroFactura = Long.valueOf(this.factura.getNumeroFactura()+1);
+            }
+            //this.transaction.commit();
+            
+        }catch(Exception e){
+            if (this.transaction != null){
+                this.transaction.rollback();
+            }
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", e.getMessage()));
+        }
+    }
+    
 }

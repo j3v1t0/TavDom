@@ -8,12 +8,5 @@
         <property name="nombres"/>
         <property name="apellidos"/>
         <property name="direccion"/>
-        <set fetch="select" inverse="true" lazy="true" name="detalle_negocio" table="detalle_negocio">
-            <key>
-                <column name="codCliente"/>
-            </key>
-            <one-to-many class="sys.model.Detalle_Negocio"/>
-        </set>
     </class>
 </hibernate-mapping>
-

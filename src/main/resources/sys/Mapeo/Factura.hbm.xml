@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="sys.model.Detalle_Negocio" table="facturacion.detalle_negocio">
-        <id column="codDetalle_Negocio" name="codDetalle_Negocio" type="int">
+    <class name="sys.model.Factura" table="facturacion.factura">
+        <id column="codFactura" name="codFactura" type="int">
             <generator class="increment"/>
         </id>
-        <many-to-one  class="sys.model.Cliente" column="codCliente" fetch="select" name="cliente">          
-        </many-to-one>
+        <property name="numeroFactura" type="int"/>
     </class>
 </hibernate-mapping>

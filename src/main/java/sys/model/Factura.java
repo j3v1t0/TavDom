@@ -15,7 +15,7 @@ import java.util.Date;
 public class Factura {
     
     private Integer codFactura;
-    private String numeroFactura;
+    private Integer numeroFactura;
     private Integer codVendedor;
     private Integer codCliente;
     private BigDecimal totalVenta;
@@ -24,7 +24,7 @@ public class Factura {
     public Factura() {
     }
 
-    public Factura(Integer codFactura, String numeroFactura, Integer codVendedor, Integer codCliente, BigDecimal totalVenta, Date fechaRegistro) {
+    public Factura(Integer codFactura, Integer numeroFactura, Integer codVendedor, Integer codCliente, BigDecimal totalVenta, Date fechaRegistro) {
         this.codFactura = codFactura;
         this.numeroFactura = numeroFactura;
         this.codVendedor = codVendedor;
@@ -41,11 +41,11 @@ public class Factura {
         this.codFactura = codFactura;
     }
 
-    public String getNumeroFactura() {
+    public Integer getNumeroFactura() {
         return numeroFactura;
     }
 
-    public void setNumeroFactura(String numeroFactura) {
+    public void setNumeroFactura(Integer numeroFactura) {
         this.numeroFactura = numeroFactura;
     }
 

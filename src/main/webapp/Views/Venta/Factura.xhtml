@@ -13,6 +13,16 @@
 
             <ui:define name="content">
                 <h2>Factura</h2>
+                
+                <h:form>
+                    <h:panelGrid width="900px" style="margin: 0 auto; background-color: lightblue">
+                        <p:commandButton value="Nueva Venta" 
+                                         action="#{facturaBean.numeracionFactura()}"
+                                         update=":formFactura">
+                        </p:commandButton>
+                    </h:panelGrid>
+                </h:form>
+                
                 <h:form id="formFactura">
                     <p:growl id="mensajeGeneral" showDetail="true" autoUpdate="true" life="3000"/>
                     <p:panel header="-*-" style="width: 900px; margin: 0 auto; text-align: center;">
@@ -41,7 +51,7 @@
                             <p:layoutUnit id="datosFactura" position="east" style="padding: 5px; text-aling: center; font-size: 14px;" size="200">
                                 <h:panelGrid columns="1" style="font-size: 24px; font-weight: bold; margin-top: 30px; margin: 0 auto;">
                                     FACTURA
-                                    <p:outputLabel value=""/>
+                                    <p:outputLabel value="#{facturaBean.numeroFactura}"/>
                                 </h:panelGrid>
                             </p:layoutUnit>
                         </p:layout>
@@ -61,8 +71,13 @@
                                      rowIndexVar="rowIndex"
                                      editable="true">
 
-                            <p:ajax event="rowEdit" listener="#{facturaBean.onRowEdit}" update=":formFactura:tablaProductosFactura :formFactura:gridTotalFactura" />
-                            <p:ajax event="rowEditCancel" listener="#{facturaBean.onRowCancel}" update=":formFactura:tablaProductosFactura :formFactura:gridTotalFactura" />
+                            <p:ajax event="rowEdit" 
+                                    listener="#{facturaBean.onRowEdit}" 
+                                    update=":formFactura:tablaProductosFactura :formFactura:gridTotalFactura" />
+                            
+                            <p:ajax event="rowEditCancel" 
+                                    listener="#{facturaBean.onRowCancel}" 
+                                    update=":formFactura:tablaProductosFactura :formFactura:gridTotalFactura" />
 
                             <p:column headerText="Codigo">
                                 <h:outputText value="#{item.codProducto}"/>
@@ -82,7 +97,8 @@
                                                      required="true" 
                                                      requiredMessage="Es necesaria una cantidad" 
                                                      converter="#{Integer}" 
-                                                     converterMessage="La cantidad debe ser numerico." validatorMessage="La cantidad debe ser mayor o igual a 1">
+                                                     converterMessage="La cantidad debe ser numerico." 
+                                                     validatorMessage="La cantidad debe ser mayor o igual a 1">
                                             <f:validateLongRange minimum="1"/>
                                         </p:inputText>
                                     </f:facet>
